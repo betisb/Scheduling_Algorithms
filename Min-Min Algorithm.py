@@ -40,11 +40,20 @@ def sufferagesufferage (df):
     for iex in df.values:
         indx = (second_smallest(iex)) - min(iex)
         task_list.append(indx)
-    for (columnName, columnData) in df.iteritems():
-        inx = task_list.index(min(task_list))
-        Cname = df.idxmin(axis=1)
-        Task = df.loc[:, :].min(axis=1)
-        data.append([Task[inx],'Task '+str(inx),Cname[inx]])
+    cindex= task_list.index(min(task_list))
+    Machine_inx = df.iloc[cindex].idxmin()
+    Task_inx= df.iloc[cindex].name
+    indx = df.T[Task_inx].loc[df.T[Task_inx].idxmin()]
+    # print(Machine_inx)
+    # print(Task_inx)
+    # print(indx)
+    data.append([indx,'Task ' + str(Task_inx),str(Machine_inx)])
+    # print(data)
+    # for (columnName, columnData) in df.iteritems():
+    #     inx = task_list.index(min(task_list))
+    #     Cname = df.idxmin(axis=1)
+    #     Task = df.loc[:, :].min(axis=1)
+    #     data.append([Task[inx],'Task '+str(inx),Cname[inx]])
     return min(data)
 
 df = pd.read_csv('Input.csv',
