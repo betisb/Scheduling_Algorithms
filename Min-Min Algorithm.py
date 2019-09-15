@@ -3,22 +3,30 @@ import numpy as np
 
 
 def prepossessing(df):
+    df = pd.DataFrame.__deepcopy__(df)
     for (columnName, columnData) in df.iteritems():
-        df[columnName].replace('-', np.nan, inplace=True)
+        df[columnName].replace('-', 9999999, inplace=True)
+        df[columnName] = df[columnName].astype('float')
+    return df
+
+def prepossessingXM(df):
+    df = pd.DataFrame.__deepcopy__(df)
+    for (columnName, columnData) in df.iteritems():
+        df[columnName].replace('-', -1, inplace=True)
         df[columnName] = df[columnName].astype('float')
     return df
 
 def min_min(df):
     data = []
     for (columnName, columnData) in df.iteritems():
-        indx = df[columnName].loc[df[columnName].idxmin()]
+        indx = df[columnName].loc[df[columnName].idxmin(skipna=True)]
         data.append([indx,'Task '+str(df[df[columnName]==indx].index[0]),df[columnName].name])
     return min(data)
 
 def max_min(df):
     data = []
     for (columnName, columnData) in df.iteritems():
-        indx = df[columnName].loc[df[columnName].idxmin()]
+        indx = df[columnName].loc[df[columnName].idxmin(skipna=True)]
         data.append([indx,'Task '+str(df[df[columnName]==indx].index[0]),df[columnName].name])
     return max(data)
 
@@ -44,16 +52,8 @@ def sufferagesufferage (df):
     Machine_inx = df.iloc[cindex].idxmin()
     Task_inx= df.iloc[cindex].name
     indx = df.T[Task_inx].loc[df.T[Task_inx].idxmin()]
-    # print(Machine_inx)
-    # print(Task_inx)
-    # print(indx)
     data.append([indx,'Task ' + str(Task_inx),str(Machine_inx)])
-    # print(data)
-    # for (columnName, columnData) in df.iteritems():
-    #     inx = task_list.index(min(task_list))
-    #     Cname = df.idxmin(axis=1)
-    #     Task = df.loc[:, :].min(axis=1)
-    #     data.append([Task[inx],'Task '+str(inx),Cname[inx]])
+
     return min(data)
 
 df = pd.read_csv('Input.csv',
@@ -62,82 +62,49 @@ df = pd.read_csv('Input.csv',
                 )
 
 def min_min_scheduller(df):
-    df = prepossessing(df)
-    for index in range(0,len(df)):
-        data = min_min(df)
+    df1 = pd.DataFrame.copy(prepossessing(df))
+    for index in range(0,len(df1)):
+        data = min_min(df1)
         print(data)
+        df1.update(df1[data[2]].apply(lambda x: np.nan if(pd.isnull(x)) else np.nansum([x,data[0]])))
         rowtoremove = int(str(data[1]).strip('Task '))
-        df = df.drop([rowtoremove], axis=0)
-        df.update(df[data[2]].apply(lambda x: np.nansum([x,data[0]])))
-        print(df)
+        df1 = df1.drop([rowtoremove], axis=0)
+
+        #print(df)
 
 def max_min_scheduller(df):
-    df = prepossessing(df)
-    for index in range(0,len(df)):
-        data = max_min(df)
+    df2 =  pd.DataFrame.copy(prepossessingXM(df))
+    for index in range(0,len(df2)):
+        data = max_min(df2)
         print(data)
+        df2.update(df2[data[2]].apply(lambda x: np.nansum([x, data[0]])))
         rowtoremove = int(str(data[1]).strip('Task '))
-        df = df.drop([rowtoremove], axis=0)
-        df.update(df[data[2]].apply(lambda x: np.nansum([x,data[0]])))
-        print(df)
+        df2 = df2.drop([rowtoremove], axis=0)
+
+        #print(df)
 
 def sufferage_scheduller(df):
-    df = prepossessing(df)
-    for index in range(0,len(df)):
-        data = sufferagesufferage(df)
+    df3 =  pd.DataFrame.copy(prepossessing(df))
+    for index in range(0,len(df3)):
+        data = sufferagesufferage(df3)
         print(data)
+        df3.update(df3[data[2]].apply(lambda x: np.nansum([x, data[0]])))
         rowtoremove = int(str(data[1]).strip('Task '))
-        df = df.drop([rowtoremove], axis=0)
-        df.update(df[data[2]].apply(lambda x: np.nansum([x,data[0]])))
-        print(df)
+        df3 = df3.drop([rowtoremove], axis=0)
 
-#min_min_scheduller(df)
-#max_min_scheduller(df)
+        #print(df)
+
+        
+
+print("Algorithm Min-Min")
+min_min_scheduller(df)
+print("-------------------------------")
+
+print("Algorithm Max-Min")
+max_min_scheduller(df)
+print("-------------------------------")
+
+print("Algorithm Sufferage")
 sufferage_scheduller(df)
-# data = (min_min(df))
-# print(data)
-#
-# data2 = min_min(df)
-# rowtoremove= int(str(data[1]).strip('Task '))
-# df.update(df[data2[2]].apply(lambda x: int(x)+data2[0]))
-#
-# print(df)
-# print(max_min(df))
+print("-------------------------------")
 
-
-
-
-
-#df.columns = [x.strip().replace(' ', '_') for x in df.columns]
-# for idx, colidx in df.iteritems():
-#     if df.iat[colidx,idx] == '-':
-#         df.iat[colidx,idx] = 999
-#     print(df.iat[colidx,idx])
-#df.columns = [df.columns].str.replace('-','999').astype('float')
-
-#print(df)
-
-#print(df['Machine 2'].loc[df['Machine 2'].idxmin()])
-
-#prepossessing(df)
-#print(df.loc[df.idxmin()])
-# for each in range(0,len(df)):
-#     if df.iat[each, 2] == '-':
-#         df.iat[each,2] = 999
-#     print(df.iat[each,2])
-    #print(df.get(each))
-    #,
-     #       dtype= {'Machine 0': np.float64,'Machine 1': np.float64,'Machine 2': np.float64,'Machine 3': np.float64,'Machine 4': np.float64,'Machine 5': np.float64,'Machine 6': np.float64})
-    #,
-     #       names=['Task List','Machine 0','Machine 1','Machine 2','Machine 3','Machine 4','Machine 5','Machine 6'])
-
-#print(next(df.iterrows())[1].get('Machine 0'))
-
-#print(next(df.iterrows())[1].get('Machine 1'))
-#print(next(df.iterrows())[1].get('Machine 2'))
-#print(next(df.iterrows())[1].get('Machine 3'))
-#print(next(df.iterrows())[1].get('Machine 4'))
-#df_T = df.T
-#for each in (next(df_T.iterrows())[1].index):
-
-#    print(df_T[each].get(each))
