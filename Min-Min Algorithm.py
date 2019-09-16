@@ -48,7 +48,7 @@ def sufferagesufferage (df):
     for iex in df.values:
         indx = (second_smallest(iex)) - min(iex)
         task_list.append(indx)
-    cindex= task_list.index(min(task_list))
+    cindex= task_list.index(max(task_list))
     Machine_inx = df.iloc[cindex].idxmin()
     Task_inx= df.iloc[cindex].name
     indx = df.T[Task_inx].loc[df.T[Task_inx].idxmin()]
@@ -70,7 +70,7 @@ def min_min_scheduller(df):
         rowtoremove = int(str(data[1]).strip('Task '))
         df1 = df1.drop([rowtoremove], axis=0)
 
-        #print(df)
+        #print(df1)
 
 def max_min_scheduller(df):
     df2 =  pd.DataFrame.copy(prepossessingXM(df))
@@ -81,7 +81,7 @@ def max_min_scheduller(df):
         rowtoremove = int(str(data[1]).strip('Task '))
         df2 = df2.drop([rowtoremove], axis=0)
 
-        #print(df)
+        #print(df2)
 
 def sufferage_scheduller(df):
     df3 =  pd.DataFrame.copy(prepossessing(df))
@@ -92,9 +92,10 @@ def sufferage_scheduller(df):
         rowtoremove = int(str(data[1]).strip('Task '))
         df3 = df3.drop([rowtoremove], axis=0)
 
-        #print(df)
+        #print(df3)
 
-        
+
+
 
 print("Algorithm Min-Min")
 min_min_scheduller(df)
