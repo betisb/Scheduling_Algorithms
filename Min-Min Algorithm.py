@@ -12,7 +12,7 @@ def prepossessing(df):
 def prepossessingXM(df):
     df = pd.DataFrame.__deepcopy__(df)
     for (columnName, columnData) in df.iteritems():
-        df[columnName].replace('-', -1, inplace=True)
+        df[columnName].replace('-', np.nan, inplace=True)
         df[columnName] = df[columnName].astype('float')
     return df
 
@@ -25,9 +25,20 @@ def min_min(df):
 
 def max_min(df):
     data = []
-    for (columnName, columnData) in df.iteritems():
-        indx = df[columnName].loc[df[columnName].idxmin(skipna=True)]
-        data.append([indx,'Task '+str(df[df[columnName]==indx].index[0]),df[columnName].name])
+    task_list = []
+    # for (columnName, columnData) in df.iteritems():
+    #     indx = df[columnName].loc[df[columnName].idxmin(skipna=True)]
+    #     data.append([indx,'Task '+str(df[df[columnName]==indx].index[0]),df[columnName].name])
+    # print(data)
+    for iex in df.values:
+        indx = min(iex)
+        task_list.append(indx)
+    cindex= task_list.index(max(task_list))
+    Machine_inx = df.iloc[cindex].idxmin()
+    Task_inx= df.iloc[cindex].name
+    indx = df.T[Task_inx].loc[df.T[Task_inx].idxmin()]
+    data.append([indx,'Task ' + str(Task_inx),str(Machine_inx)])
+    #print(data)
     return max(data)
 
 def second_smallest(numbers):
