@@ -1,6 +1,6 @@
 import math
 import sys
-import queue
+import Queue
 import threading
 from termcolor import colored
 import time
@@ -35,7 +35,7 @@ def main():
     # Initialize threads
     for x in range(1, N + 1):
         a = []
-        a.append(queue.PriorityQueue())
+        a.append(Queue.PriorityQueue())
         a.append({})
         a.append(threading.Thread(target=main_thread_function, args=(x,)))
         threads.append(a)
