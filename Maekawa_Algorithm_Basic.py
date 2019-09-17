@@ -15,7 +15,7 @@ import socket
 from argparse import ArgumentParser
 
 
-NUM_NODE = 9
+NUM_NODE = 64
 INIT_PORT = 3000
 NODE_PORT = [(INIT_PORT + i) for i in range(NUM_NODE)]
 RECV_BUFFER = 4096

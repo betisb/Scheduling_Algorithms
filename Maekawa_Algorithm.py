@@ -8,7 +8,7 @@ import random
 import copy
 
 
-N = 9
+N = 16
 n = int(math.sqrt(N))
 assert math.sqrt(N) ** 2 == N, "N must be a square number"
 assert len(sys.argv) == 5, "Require {} arguments to function, given {}".format(
