@@ -15,9 +15,9 @@ import socket
 from argparse import ArgumentParser
 
 
-NUM_NODE = 64
+NUM_NODE = 16
 INIT_PORT = 3000
-NODE_PORT = [(INIT_PORT + i) for i in range(NUM_NODE)]
+NODE_PORT = [(INIT_PORT + i) for i in xrange(NUM_NODE)]
 RECV_BUFFER = 4096
 
 class STATE(IntEnum):
