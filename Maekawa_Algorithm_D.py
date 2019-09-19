@@ -48,6 +48,17 @@ class Process:
             self.Process_Voted['Voted'] = False
 
 
+
+def voting_set(Node,Cluster):
+    voting_set = dict()
+    K = int(math.ceil(math.sqrt(Node)))
+    (row_id, col_id) = (int(Node / K),
+                        int(Node % K))
+    for i in range(K):
+        voting_set[K * row_id + i] = None
+        voting_set[col_id + K * i] = None
+    return voting_set
+
 Nodes= input("Insert Number Of Nodes (N): ")
 Clusters= input("Insert Number of K:")
 #print int(math.sqrt(Nodes))
@@ -62,6 +73,7 @@ else:
     # prosesses[0].CS_Entering_Request()
     # print(prosesses[0].Process_State)
     shuffle= xrange(1,int(Clusters)*(int(Clusters)-1)+1)
-    for j in shuffle:
-        qourum.insert(j,prosesses[j])
-        print(qourum)
+    print voting_set(Nodes,Clusters)
+    for j in xrange(Nodes):
+        qourum.insert(j,voting_set(Nodes,Clusters))
+        #print(qourum[j])
