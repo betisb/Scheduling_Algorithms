@@ -1,3 +1,13 @@
+#title           :MinMinMaxMinSufferageAlgorithm.py
+#description     :Three Different Scheduller Min-Min Max-Min and Sufferage.
+#author          :Betis Baheri
+#date            :09-19-2019
+#version         :1.0
+#python_version  :2.7
+#==============================================================================
+
+
+
 import pandas as pd
 import numpy as np
 

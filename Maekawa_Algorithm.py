@@ -1,3 +1,12 @@
+#title           :Maekawa_Algorithm.py
+#description     :Thread Number Based.
+#author          :Betis Baheri
+#date            :09-19-2019
+#version         :1.0
+#python_version  :2.7
+#==============================================================================
+
+
 import math
 import sys
 import Queue

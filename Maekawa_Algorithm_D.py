@@ -1,3 +1,13 @@
+#title           :Maekawa_Algorithm_D.py
+#description     :Dynamic N and K Try.
+#author          :Betis Baheri
+#date            :09-19-2019
+#version         :1.0
+#python_version  :2.7
+#==============================================================================
+
+
+
 import math
 import random
 
