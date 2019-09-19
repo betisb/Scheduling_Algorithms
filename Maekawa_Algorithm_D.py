@@ -1,3 +1,6 @@
+import math
+import random
+
 
 class Process:
     Process_State = {
@@ -45,7 +48,20 @@ class Process:
             self.Process_Voted['Voted'] = False
 
 
-pi = Process()
-print(pi.Process_Request)
-pi.CS_Entering_Request()
-
+Nodes= input("Insert Number Of Nodes (N): ")
+Clusters= input("Insert Number of K:")
+#print int(math.sqrt(Nodes))
+if(int(math.sqrt(Nodes)) != int(Clusters) or Clusters > Nodes):
+    print("Cluster should be less than Square Root of Nodes!")
+else:
+    qourum=[]
+    prosesses = []
+    for i in xrange(Nodes):
+        prosesses.insert(i,Process())
+    # print(prosesses[1].Process_State)
+    # prosesses[0].CS_Entering_Request()
+    # print(prosesses[0].Process_State)
+    shuffle= xrange(1,int(Clusters)*(int(Clusters)-1)+1)
+    for j in shuffle:
+        qourum.insert(j,prosesses[j])
+        print(qourum)
